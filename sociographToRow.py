@@ -2,6 +2,8 @@
 #-*- coding: utf-8 -*-
 
 from Tkinter import Tk
+import gspread
+
 
 copyData = Tk().clipboard_get()
 copyData = copyData.encode("utf-8").strip()
