@@ -12,6 +12,7 @@ def getPageData(copyData):
 
 	pageData = {}
 	pageData["until date"] = copyData.split("—")[1].split("\n")[1]
+	print pageData["until date"]
 
 	# print copyData
 	topData = copyData.split("—")[1].split("\n")[3]
@@ -69,6 +70,7 @@ def openClient():
 	return client
 
 def placeRowInSheet(pageData, client):
+	print "Populating data sheet"
 	dataSheet = client.open("socioscrape").get_worksheet(0)
 	labels = [x for x in dataSheet.row_values(1)[1:] if x]
 	dateRow = dataSheet.find(pageData['until date']).row
@@ -78,6 +80,7 @@ def placeRowInSheet(pageData, client):
 		col += 1
 	
 def placeRankingsInSheet(pageData, client):
+	print "Populating ranking sheet"
 	rankingSheet = client.open("socioscrape").get_worksheet(1)
 	labels = [x for x in rankingSheet.row_values(1)[1:] if x] 
 	dateRow = rankingSheet.find(pageData['until date']).row
@@ -88,7 +91,6 @@ def placeRankingsInSheet(pageData, client):
 			nameCol = labels.index(ranking[0])
 		except Exception as e:
 			labelCount += 1
-			print labelCount, rankingSheet.col_count
 			if labelCount == rankingSheet.col_count:
 				rankingSheet.resize(cols = labelCount * 2)
 			rankingSheet.update_cell(1, labelCount, ranking[0])
