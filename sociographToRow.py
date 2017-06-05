@@ -24,23 +24,22 @@ def getPageData(copyData):
 	afterGraphIdx = copyData.split("\n").index("Total/Per post")
 
 	def numSpliter(joinedNumStr, denom):
+		if "K" in joinedNumStr:
+			return int(joinedNumStr.split("K")[0].replace(".",""))*100
 		for idx in range(1,len(joinedNumStr)):
 			if int(joinedNumStr[:idx])/denom == int(joinedNumStr[idx:]):
-				return idx
+				return int(joinedNumStr[:idx])
 		print "numSpliter ERROR!"
 		exit(1)
 
 	rawReactionsNum = copyData.split("\n")[afterGraphIdx+1]
-	reactionsSplit = numSpliter(rawReactionsNum, pageData["posts"])
-	pageData["reactions"] = int(rawReactionsNum[:reactionsSplit])
+	pageData["reactions"] = numSpliter(rawReactionsNum, pageData["posts"])
 
 	rawSharesNum = copyData.split("\n")[afterGraphIdx+4]
-	sharesSplit = numSpliter(rawSharesNum, pageData["posts"])
-	pageData["shares"] = int(rawSharesNum[:sharesSplit])
+	pageData["shares"] = numSpliter(rawSharesNum, pageData["posts"])
 
 	rawCommentsNum = copyData.split("\n")[afterGraphIdx+7]
-	commentsSplit = numSpliter(rawCommentsNum, pageData["posts"])
-	pageData["comments"] = int(rawCommentsNum[:commentsSplit])
+	pageData["comments"] = numSpliter(rawCommentsNum, pageData["posts"])
 
 	pageData["photos"] = copyData.split("\n")[afterGraphIdx+11]
 	pageData["videos"] = copyData.split("\n")[afterGraphIdx+14]
