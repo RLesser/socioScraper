@@ -25,7 +25,10 @@ def getPageData(copyData):
 
 	def numSpliter(joinedNumStr, denom):
 		if "K" in joinedNumStr:
-			return int(joinedNumStr.split("K")[0].replace(".",""))*100
+			if "." in joinedNumStr.split("K")[0]:
+				return int(joinedNumStr.split("K")[0].replace(".",""))*100
+			else:
+				return int(joinedNumStr.split("K")[0])*1000
 		for idx in range(1,len(joinedNumStr)):
 			if int(joinedNumStr[:idx])/denom == int(joinedNumStr[idx:]):
 				return int(joinedNumStr[:idx])
